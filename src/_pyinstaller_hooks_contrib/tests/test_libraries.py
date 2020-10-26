@@ -401,3 +401,11 @@ def test_pywin32ctypes(pyi_builder, submodule):
     pyi_builder.test_source("""
         from win32ctypes.pywin32 import {0}
         """.format(submodule))
+
+
+@importorskip('folium')
+def test_folium(pyi_builder):
+    pyi_builder.test_source("""
+        import folium
+        m = folium.Map(location=[0, 0], zoom_start=5)
+        """)
