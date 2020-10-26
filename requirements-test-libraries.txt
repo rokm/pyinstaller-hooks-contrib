@@ -28,6 +28,11 @@ publicsuffix2==2.20191221
 web3==5.7.0
 
 # ------------------- Python Version/Platform (OS) specifics
+# MetPy currently pins pyproj<3.0, which makes wheels unavailable for
+# python 3.9. In addition MetPy 1.0 switched from pkg_resources to
+# importlib_resources, which does not work with PyInstaller yet.
+MetPy==0.12.2; python_version < '3.9'
+
 # Last release with prebuilt wheels for Python 3.6 is 3.1.0
 h5py==3.1.0; python_version < '3.7'
 h5py==3.2.1; python_version >= '3.7'
