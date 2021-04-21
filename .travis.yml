@@ -1,8 +1,8 @@
 language: python
 
 branches:
-  except:
-    - /pyup\/.*/
+  only:
+  - ci-test
 
 
 dist: bionic
@@ -46,14 +46,14 @@ jobs:
 
         # Install PyInstaller
         - pip install https://github.com/pyinstaller/pyinstaller/archive/develop.tar.gz
-     
+
     - <<: *test
       python: 3.8
     - <<: *test
       python: 3.7
     - <<: *test
       python: 3.6
-    
+
     - <<: *test
       stage: PyInstaller development version
       python: 3.8
