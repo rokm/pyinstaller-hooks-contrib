@@ -11,6 +11,7 @@
 # ------------------------------------------------------------------
 
 from PyInstaller.utils.hooks import copy_metadata, collect_entry_point
+from PyInstaller.log import logger
 
 datas = []
 hiddenimports = []
@@ -28,3 +29,5 @@ hiddenimports += ep_hiddenimports
 # `xarray` requires `numpy` metadata due to several calls to its `xarray.core.utils.module_available` with specified
 # `minversion` argument, which end up calling `importlib.metadata.version`.
 datas += copy_metadata('numpy')
+
+logger.info("hook-xarray: datas=%r, hiddenimports=%r", datas, hiddenimports)
