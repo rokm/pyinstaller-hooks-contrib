@@ -232,7 +232,7 @@ vaderSentiment==3.3.2
 # langchain depends on numpy<2.0.0, which does not have binary wheels for python 3.13.
 langchain==0.3.26; python_version >= '3.9' and python_version < '3.13'
 seedir==0.5.1
-cel-python==0.3.0
+cel-python==0.3.0; python_version >= '3.9'
 # pygwalker depends on quickjs, which at the time of writing (v1.19.4) cannot be built under python 3.13.
 # pygwalker also depends on numpy<2.0.0, which does not have binary wheels for python 3.13.
 pygwalker==0.4.9.15; python_version < '3.13'
