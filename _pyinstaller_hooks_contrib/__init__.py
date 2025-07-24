@@ -39,7 +39,7 @@ if (compat.is_win or compat.is_cygwin) and not compat.is_py311:
     # Cygwin with python < 3.11 when recursion limit is raised to 5000. In fact, with python 3.8, the crash seems
     # to occur if recursion limit is set above 2097. So for combinations of affected platforms and python versions,
     # use more conservative value for the new recursion limit.
-    new_recursion_limit = 2000
+    new_recursion_limit = 2100
 else:
     new_recursion_limit = 5000
 if sys.getrecursionlimit() < new_recursion_limit:
