@@ -1930,30 +1930,39 @@ def test_z3c_rml_rml2pdf(pyi_builder):
     """)
 
 
+# Ensure that the freetype shared library is bundled with the frozen application, and that it is being used (as opposed
+# to the system copy). Requires `psutil` for obtaining list of loaded shared libraries.
 @importorskip('freetype')
-def test_pyi_freetype(pyi_builder):
+@importorskip('psutil')
+def test_freetype(pyi_builder):
     pyi_builder.test_source("""
-        import sys
+        import os
         import pathlib
+        import sys
 
+        import psutil
+
+        proc = psutil.Process(os.getpid())
+
+        libs_before = [pathlib.Path(lib.path) for lib in proc.memory_maps()]
+
+        print("Importing freetype...", file=sys.stderr)
         import freetype
 
-        # Ensure that the freetype shared library is bundled with the frozen application; otherwise, freetype might be
-        # using system-wide library.
+        libs_after = [pathlib.Path(lib.path) for lib in proc.memory_maps()]
 
-        # First, check that freetype.FT_Library_filename is an absolute path; otherwise, it is likely using
-        # basename-only ctypes fallback.
-        ft_library_file = pathlib.Path(freetype.FT_Library_filename)
-        print(f"FT library file (original): {ft_library_file}", file=sys.stderr)
-        assert ft_library_file.is_absolute(), "FT library file is not an absolute path!"
+        libs_new = sorted(set(libs_after) - set(libs_before))
+        print("Shared libraries loaded during freetype import:", file=sys.stderr)
+        for lib in libs_new:
+            print(f" * {lib}", file=sys.stderr)
 
-        # Check that fully-resolved freetype.FT_Library_filename is anchored in fully-resolved frozen application
-        # directory.
-        app_dir = pathlib.Path(__file__).resolve().parent
-        print(f"Application directory: {app_dir}", file=sys.stderr)
-        ft_library_path = pathlib.Path(ft_library_file).resolve()
-        print(f"FT library file (resolved): {ft_library_path}", file=sys.stderr)
-        assert app_dir in ft_library_path.parents, "FT library is not bundled with frozen application!"
+        libs_freetype = [lib for lib in libs_new if 'freetype' in lib.name]
+        assert len(libs_freetype) >= 1, "No library with 'freetype' in name found!"
+
+        app_dir = pathlib.Path(__file__).parent.resolve()
+        for lib_path in libs_freetype:
+            lib_path = lib_path.resolve()
+            assert app_dir in lib_path.parents, f"{lib_path} is not rooted in top-level application directory!"
     """)
 
 
