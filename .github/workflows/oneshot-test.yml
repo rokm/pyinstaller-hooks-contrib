@@ -166,5 +166,18 @@ jobs:
           # Install PyInstaller
           pip install ${{ github.event.inputs.pyinstaller }}
 
+      - name: tkinter check
+        shell: python
+        run: |
+          import tkinter
+          import _tkinter
+
+          print("_tkinter.TCL_VERSION:", _tkinter.TCL_VERSION)
+          print("_tkinter.TK_VERSION:", _tkinter.TK_VERSION)
+
+          tcl = tkinter.Tcl()
+          print("info version:", tcl.eval("info tclversion"))
+          print("info library:", tcl.eval("info library"))
+
       - name: Run tests
         run: pytest -v -n logical ${{ inputs.pytest_args }}
