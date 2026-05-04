@@ -1,3 +1,32 @@
+2026.5 (2026-05-04)
+-------------------
+
+New hooks
+~~~~~~~~~
+
+* Add a hook for ``plum``, to automatically discover and collect the
+  ``{id}__mypyc`` top-level module. (`#1008
+  <https://github.com/pyinstaller/pyinstaller-hooks-contrib/issues/1008>`_)
+* Add a hook for ``tensorrt``, which loads dynamic libraries. (`#1005
+  <https://github.com/pyinstaller/pyinstaller-hooks-contrib/issues/1005>`_)
+* Add hook for ``psycopg_c`` (C-extension installation of Psycopg 3) to
+  ensure that ``psycopg_c._uuid`` module is collected, in order to prevent
+  missing-module error when working with data of UUID data type. (`#1010
+  <https://github.com/pyinstaller/pyinstaller-hooks-contrib/issues/1010>`_)
+
+
+Updated hooks
+~~~~~~~~~~~~~
+
+* Rework the ``findlibs`` run-time hook to improve compatibility with
+  ``findlibs`` >= 0.1.0 and avoid problems with contemporary versions
+  of ``eccodes`` / ``eccodeslib``. (`#1014
+  <https://github.com/pyinstaller/pyinstaller-hooks-contrib/issues/1014>`_)
+* Update ``trame_client`` hook to collect package's metadata, which is
+  required by ``trame-client`` v3.12.0 and later. (`#1015
+  <https://github.com/pyinstaller/pyinstaller-hooks-contrib/issues/1015>`_)
+
+
 2026.4 (2026-03-31)
 -------------------
 
