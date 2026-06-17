@@ -23,6 +23,28 @@ from PyInstaller.utils.hooks import (
 from PyInstaller.utils.tests import importorskip, importable, requires, xfail
 
 
+@importorskip('numpy')
+def test_numpy(pyi_builder):
+    pyi_builder.test_source(
+        """
+        import numpy
+        from numpy.core.numeric import dot
+        print('dot(3, 4):', dot(3, 4))
+        """,
+    )
+
+
+@importorskip('numpy')
+def test_numpy_stripped(pyi_builder):
+    pyi_builder.test_source(
+        """
+        import numpy
+        from numpy.core.numeric import dot
+        print('dot(3, 4):', dot(3, 4))
+        """, pyi_args=['--strip'],
+    )
+
+
 @importorskip('fiona')
 def test_fiona(pyi_builder):
     pyi_builder.test_source(
